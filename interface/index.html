@@ -1,0 +1,130 @@
+<html style="overflow-x: hidden; overflow-y: hidden;">
+    <head>
+        <title>XRPLife UI</title>
+        <!-- Style Sheets -->
+        <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'> <!-- Material CSS -->
+        <link rel="stylesheet" href="https://unpkg.com/vuetify/dist/vuetify.min.css"> <!-- Vuetify CSS -->
+        <link rel="stylesheet" href="https://unpkg.com/vue-snotify@3.0.4/styles/material.css"> <!-- Notification CSS -->
+        <link rel="stylesheet" href="css/character_menu.css"> <!-- Character Menu CSS -->
+        <link rel="stylesheet" href="css/inventory.css"> <!-- Clothing Shop -->
+    </head>
+    <body style="background-color: transparent !important; font-family: Verdana, Geneva, Tahoma, sans-serif; -moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none">
+
+        <div id="character_menu_container">
+                <v-app style="background-color: transparent !important">
+                    <div id="character_list" v-show="show_menu">
+                        <div id="character_list_header">
+                            <div>XRPLife</div>
+                        </div>
+                        <div id="character_list_body">
+                            <v-btn color="blue" style="color: white;" round id="character_create_button" @click.native="ShowCharacterCreator()">NEW CHARACTER</v-btn>
+                            <div id="character_table">
+                                <v-data-table v-bind:headers="character_headers" :items="characters" class="elevation-1" rows-per-page-items="5" no-data-text="You have no characters">
+                                    <template slot="items" slot-scope="props" onclick="console.log('Testing')">
+                                        <td class="text-xs-center">{{ props.item.id }}</td>
+                                        <td class="text-xs-center">{{ props.item.name }}</td>
+                                        <td class="text-xs-center">{{ props.item.dob }}</td>
+                                        <td class="text-xs-center">{{ props.item.gender }}</td>
+                                        <td class="text-xs-center">{{ props.item.model }}</td>
+                                        <td class="text-xs-center">{{ props.item.bank }}</td>
+                                        <td class="text-xs-center"><v-btn color="blue" round style="color: white;" @click="ShowInventory(props.item.inventory)"><v-icon left>folder_open</v-icon>View</v-btn></td>
+                                        <td class="text-xs-center">
+                                            <v-btn color="red" style="color: white;" round @click="RequestCharacterDeletion(props.item.name, props.item.dob)"><v-icon left>block</v-icon> Delete</v-btn>
+                                            <v-icon>code</v-icon>
+                                            <v-btn color="green" style="color: white;" round @click="RequestCharacterSelection(props.item.name, props.item.dob)"><v-icon left>check_circle</v-icon> Select</v-btn></td> <!-- CHANGE THIS @ FUNCTION HERE LATER -->
+                                    </template>
+                                    <template slot="no-data">
+                                        <v-alert :value="true" color="blue" icon="warning">
+                                            No accounts found.
+                                        </v-alert>
+                                    </template>
+                                </v-data-table>
+                            </div>
+                        </div>
+
+                        <v-dialog v-model="show_inventory" persistent max-width="500px">
+                            <div style="color: white; background-color: black; width: 100%; border-top-left-radius: 5px; border-top-right-radius: 5px; display: block;">
+                                <v-btn style="color: white; width: 30px; height: 30px; position: relative; float: left; margin-right: 15%;" color="red" @click="ShowInventory()">X</v-btn>
+                                <div style="font-size: 30px; letter-spacing: 5px;">Inventory</div>
+                            </div>
+                            <v-data-table v-bind:headers="selected_inventory_headers" :items="selected_inventory" class="elevation-1" rows-per-page-items="5" no-data-text="You have nothing in your inventory">
+                                <template slot="items" slot-scope="props">
+                                    <td class="text-xs-center">{{ props.item.name }}</td>
+                                    <td class="text-xs-center">{{ props.item.amount }}</td>
+                                </template>
+                            </v-data-table>
+                        </v-dialog>
+
+                        <v-dialog v-model="show_character_creator" persistent max-width="500px">
+                            <v-card>
+                                <v-card-title class="headline" style="width: 100%; background-color: black; color: white;">
+                                    Create Your Character
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-form v-model="character_creator_valid">
+                                        <v-text-field label="First Name" :rules="input_first_name_rules" v-model="input_first_name" required counter="20"></v-text-field>
+                                        <v-text-field label="Last Name" :rules="input_last_name_rules" v-model="input_last_name" required counter="20"></v-text-field>
+                                        <v-select label="Gender" v-model="input_gender_value" :items="input_gender_list" :rules="input_gender_rules" required @blur="UpdateCreatorModels()"></v-select>
+                                        <v-menu lazy :close-on-content-click="false" v-model="show_character_dob_menu" transition="scale-transition" offset-y full-width :nudge-right="40" max-width="290px" min-width="290px" required>
+                                            <v-text-field slot="activator" label="Choose a DOB" v-model="input_date_value" readonly></v-text-field>
+                                            <v-date-picker v-model="input_date_value" no-title prepend-icon="event" autosave :onblur="GetAge()"></v-date-picker>
+                                        </v-menu>
+                                        <v-text-field label="Age" :rules="input_age_rules" v-model="input_age_value" readonly disabled></v-text-field>
+
+                                        <v-select hint="http://ragepluginhook.net/PedModels.aspx" label="Player Model" autocomplete :loading="loading" chips required :items="ped_models" :rules="input_character_ped_rules" :search-input.sync="search" v-model="select"></v-select>
+
+                                        <v-btn @click="ShowCharacterCreator()" color="red" style="color: white;">Cancel</v-btn>
+                                        <v-btn @click="ValidateCharacterForm()" :disabled="!character_creator_valid" color="green" style="color: white;">submit</v-btn>
+                                        <v-alert color="error" icon="error" dismissible v-model="show_character_creator_error">
+                                            {{show_character_creator_error_message}}
+                                          </v-alert>
+                                    </v-form>
+                                </v-card-text>
+                            </v-card>
+                        </v-dialog>
+                    </div>
+                </v-app>
+            </div>
+            
+            
+            <div id="inventory_menu_container" v-show="show_inventory">
+                <v-app style="background-color: transparent !important">
+                    <div id="inventory">
+                        <div id="inventory_header">
+                            <v-btn small color="red" style="position: absolute; float: right; right: 0px; top: 0px;" @click="ToggleInventory()"><v-icon>close</v-icon></v-btn>
+                            XRPLife Inventory
+                        </div>
+                        <div id="inventory_body">
+                            <v-data-table v-bind:headers="inventory_headers" :items="inventory" class="elevation-1" rows-per-page-items="5" no-data-text="You have nothing in your inventory">
+                                <template slot="items" slot-scope="props">
+                                    <td class="text-xs-center">{{ props.item.item }}</td>
+                                    <td class="text-xs-center">{{ props.item.amount }}</td>
+                                    <td class="text-xs-center">
+                                        <v-btn color="red" style="color: white;" round><v-icon left>block</v-icon> Remove</v-btn>
+                                        <v-icon>code</v-icon>
+                                        <v-btn color="green" style="color: white;" round @click="UseItem(props.item.item)"><v-icon left>check_circle</v-icon> Select</v-btn>
+                                    </td>
+                                </template>
+                            </v-data-table>
+                        </div>
+                    </div>
+                </v-app>
+            </div>
+
+            <div id="notification_container">
+                <vue-snotify></vue-snotify>
+            </div>
+            
+            <!-- Javascript Libraries -->
+            <script src="https://cdn.jsdelivr.net/npm/vue"></script> <!-- Vue JS -->
+            <script src="https://unpkg.com/vuetify/dist/vuetify.js"></script> <!-- Vuetify JS -->
+            <script src="https://unpkg.com/axios/dist/axios.min.js"></script> <!-- Axios HTTP JS -->
+            <script src="https://unpkg.com/vue-snotify@3.0.4/vue-snotify.js"></script> <!-- Notification JS -->
+
+            <!-- Built Scripts -->
+            <script src="js/inbound.js"></script> <!-- Event Listener -->
+            <script src="js/character_menu.js"></script> <!-- Character Main Menu | Character Creator JS -->
+            <script src="js/inventory.js"></script>
+            <script src="js/notification.js"></script>
+    </body>
+</html>

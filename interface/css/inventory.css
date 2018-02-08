@@ -1,0 +1,22 @@
+#inventory_menu_container {
+    position: absolute;
+    width: 800px;
+    height: 500px;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#inventory_header {
+    text-align: center;
+    color: white;
+    background-color: black;
+    padding: 20px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    font-size: 28px;
+}
+
+#inventory_body {
+    background-color: white;
+}
