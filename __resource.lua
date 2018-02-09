@@ -33,12 +33,19 @@ server_script "tables/players.lua"
 --[[ Interface Files ]]--
 ui_page("interface/index.html")
 files {
+    -- UI PAGE
     "interface/index.html",
+
+    -- CSS
     "interface/css/character_menu.css",
     "interface/css/inventory.css",
+    "interface/css/player_interaction.css",
+
+    -- JS
     "interface/js/inbound.js",
     "interface/js/character_menu.js",
     "interface/js/inventory.js",
+    "interface/js/player_interaction.js",
     "interface/js/notification.js"
 }
 
@@ -51,7 +58,11 @@ client_script "interface/lua/notification/client.lua"
 -- Inventory
 server_script "interface/lua/inventory/server.lua"
 client_script "interface/lua/inventory/client.lua"
-client_script "interface/lua/inventory/item_functions/handcuffs.lua"
+
+-- Player Interaction
+server_script "interface/lua/player_interaction/server.lua"
+client_script "interface/lua/player_interaction/client.lua"
+client_script "interface/lua/player_interaction/scripts/handcuffs.lua"
 
 --[[ Module Files ]]--
 -- Player Spawning --

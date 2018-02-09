@@ -1,0 +1,24 @@
+#player_interaction_container {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 400px;
+}
+
+#player_interaction_header {
+    text-align: center;
+    padding: 20px;
+    background-color: black;
+    color: white;
+    font-size: 20px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+#player_interaction_body {
+    background-color: white;
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

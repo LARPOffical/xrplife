@@ -15,7 +15,7 @@ ClientHelpers.GetPlayers = function()
     return players
 end
 
-ClientHelpers.GetPlayerAheadOfPlayer = function()
+ClientHelpers.GetPedAheadOfPlayer = function()
     local lPed = ClientHelpers.LocalPed()
     local lPedCoords = GetEntityCoords(lPed, alive)
     local lPedOffset = GetOffsetFromEntityInWorldCoords(lPed, 0.0, 3.0, 0.0)

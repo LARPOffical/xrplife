@@ -7,9 +7,11 @@
         <link rel="stylesheet" href="https://unpkg.com/vue-snotify@3.0.4/styles/material.css"> <!-- Notification CSS -->
         <link rel="stylesheet" href="css/character_menu.css"> <!-- Character Menu CSS -->
         <link rel="stylesheet" href="css/inventory.css"> <!-- Clothing Shop -->
+        <link rel="stylesheet" href="css/player_interaction.css"> <!-- Interaction Menu -->
     </head>
     <body style="background-color: transparent !important; font-family: Verdana, Geneva, Tahoma, sans-serif; -moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none">
 
+        <!-- Container contains the character menu and character creator -->
         <div id="character_menu_container">
                 <v-app style="background-color: transparent !important">
                     <div id="character_list" v-show="show_menu">
@@ -86,7 +88,8 @@
                 </v-app>
             </div>
             
-            
+            <!-- Container contains characters inventory -->
+            <!-- ONLY PUT USE BUTTONS ON CERTAIN ITEM TYPES -->
             <div id="inventory_menu_container" v-show="show_inventory">
                 <v-app style="background-color: transparent !important">
                     <div id="inventory">
@@ -102,7 +105,7 @@
                                     <td class="text-xs-center">
                                         <v-btn color="red" style="color: white;" round><v-icon left>block</v-icon> Remove</v-btn>
                                         <v-icon>code</v-icon>
-                                        <v-btn color="green" style="color: white;" round @click="UseItem(props.item.item)"><v-icon left>check_circle</v-icon> Select</v-btn>
+                                        <v-btn color="green" style="color: white;" round @click=""><v-icon left>check_circle</v-icon> Select</v-btn>
                                     </td>
                                 </template>
                             </v-data-table>
@@ -111,6 +114,41 @@
                 </v-app>
             </div>
 
+            <!-- Container contains player interaction menu -->
+            <div id="player_interaction_container" v-show="show_player_interaction">
+                <div id="player_interaction_header">
+                    XRPLife Player Interaction
+                </div>
+
+                <div id="player_interaction_body">
+                    <div id="interaction_buttons" v-show="show_main_interaction_buttons">
+                        <v-btn color="gray" outline  style="width: 96%;" @click="ToggleCivilianActions()">Civilian</v-btn>
+                        <v-btn color="gray" outline  style="width: 96%;" v-show="has_police_actions" @click="TogglePoliceActions()">LEO</v-btn>
+                        <v-btn color="gray" outline  style="width: 96%;" v-show="has_ems_actions">EMS</v-btn>
+                        <v-btn color="gray" outline  style="width: 96%;" v-show="has_fire_actions">FIRE</v-btn>
+                        <v-btn color="red" outline style="width: 96%;" @click="TogglePlayerInteraction()">Close Menu</v-btn>
+                    </div>
+
+                    <div id="civilian_player_interactions" v-show="show_civilian_actions">
+                        <v-btn color="gray" outline style="width: 96%">Mug</v-btn>
+                        <v-btn color="gray" outline style="width: 96%">Blind Fold</v-btn>
+                        <v-btn color="gray" outline style="width: 96%">Ziptie</v-btn>
+                        <v-btn color="gray" outline style="width: 96%">Lockpick</v-btn>
+                        <v-btn color="gray" outline style="width: 96%" @click="ToggleCivilianActions()">Back</v-btn>
+                        <v-btn color="red" outline style="width: 96%" @click="TogglePlayerInteraction()">Close Menu</v-btn>
+                    </div>
+
+                    <div id="police_player_interactions" v-show="show_police_actions">
+                        <v-btn color="gray" outline style="width: 96%">Request ID</v-btn>
+                        <v-btn color="gray" outline style="width: 96%">Handcuff</v-btn>
+                        <v-btn color="gray" outline style="width: 96%">Search</v-btn>
+                        <v-btn color="gray" outline style="width: 96%" @click="TogglePoliceActions()">Back</v-btn>
+                        <v-btn color="red" outline style="width: 96%" @click="TogglePlayerInteraction()">Close Menu</v-btn>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Container contains screen notifications -->
             <div id="notification_container">
                 <vue-snotify></vue-snotify>
             </div>
@@ -124,7 +162,8 @@
             <!-- Built Scripts -->
             <script src="js/inbound.js"></script> <!-- Event Listener -->
             <script src="js/character_menu.js"></script> <!-- Character Main Menu | Character Creator JS -->
-            <script src="js/inventory.js"></script>
-            <script src="js/notification.js"></script>
+            <script src="js/inventory.js"></script> <!-- Inventory JS -->
+            <script src="js/player_interaction.js"></script> <!-- Interaction JS -->
+            <script src="js/notification.js"></script> <!-- Notification JS -->
     </body>
 </html>

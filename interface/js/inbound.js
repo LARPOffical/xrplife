@@ -32,6 +32,13 @@ document.onreadystatechange = () => {
                 inventory.ToggleInventory();
                 inventory.UpdateInventory(event.data.items);
             }
+
+            // Player Interaction Menu
+            if (event.data.type == "open_player_interaction") {
+                player_interaction.TogglePlayerInteraction(event.data.jobs)
+            } else if (event.data.type == "force_close_player_interaction") {
+                player_interaction.TogglePlayerInteraction();
+            }
         });
     }
 }
