@@ -71,10 +71,10 @@ MySQL.ready(function()
             })),
             ['@bank'] = BaseConfig.StarterBank,
             ['@inventory'] = json.encode({}),
-            ['@state'] = json.encode({rank = "", divisions = {}}),
-            ['@sheriff'] = json.encode({rank = "", divisions = {}}),
-            ['@police'] = json.encode({rank = "", divisions = {}}),
-            ['@fire'] = json.encode({rank = "", divisions = {}}),
+            ['@state'] = json.encode({rank = "", divisions = {}, hasPermission = false}),
+            ['@sheriff'] = json.encode({rank = "", divisions = {}, hasPermission = false}),
+            ['@police'] = json.encode({rank = "", divisions = {}, hasPermission = false}),
+            ['@fire'] = json.encode({rank = "", divisions = {}, hasPermission = false}),
         }, function(results)
             print(results)
             TriggerEvent("XRPLife:UpdatePlayerCharacters", id)
@@ -83,13 +83,31 @@ MySQL.ready(function()
 
     -- Updates Character Clothing
     CharacterDB.UpdateSelectedCharacter = function(id, name, dob, data)
-        MySQL.Async.execute("UPDATE characters SET model_components = @data WHERE license = @license AND name = @name and dob = @dob", {
+        MySQL.Async.execute("UPDATE characters SET model_components = @data WHERE license = @license AND name = @name AND dob = @dob", {
             ['@license'] = ServerHelpers.FindPlayerIdentifier("license", id),
             ['@name'] = name,
             ['@dob'] = dob,
             ['@data'] = tostring(json.encode(data))
         }, function(results)
             print("UPDATING CHARACTER")
+            print(results)
+        end)
+    end
+
+    -- Add Money To Character Bank
+    CharacterDB.AddMoneyCharacterBank = function(id, name, dob, amount)
+        local current_bank_amount = MySQL.Sync.fetchAll("SELECT bank FROM characters WHERE license = @license AND name = @name AND dob = @dob", {
+            ['@license'] = ServerHelpers.FindPlayerIdentifier("license", id),
+            ['@name'] = name,
+            ['@dob'] = dob
+        })
+
+        MySQL.Async.execute("UPDATE characters SET bank = @bank WHERE license = @license AND name = @name AND dob = @dob", {
+            ['@bank'] = current_bank_amount[1].bank + amount,
+            ['@license'] = ServerHelpers.FindPlayerIdentifier("license", id),
+            ['@name'] = name,
+            ['@dob'] = dob
+        }, function(results)
             print(results)
         end)
     end
@@ -102,4 +120,13 @@ MySQL.ready(function()
         end)
     end
 
+    CharacterDB.CharacterPoliceData = function(id, name, dob)
+        local results = MySQL.Sync.fetchAll("SELECT police FROM characters WHERE license = @license AND name = @name AND dob = @dob",  {
+            ['@license'] = ServerHelpers.FindPlayerIdentifier("license", id),
+            ['@name'] = name,
+            ['@dob'] = dob
+        })
+        local data = json.decode(results[1].police)
+        return data
+    end
 end)

@@ -43,3 +43,10 @@ RegisterCommand("g", function(source, args, string)
 end, false)
 
 --]]
+
+--[[ Testing Commands ]]--
+RegisterCommand("setjob", function(source, args, string)
+    local src = source
+    local job = tostring(table.concat(args, " "))
+    CharacterJobs.Functions.SetPlayerJob(src, job)
+end, false)

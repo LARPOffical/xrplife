@@ -22,8 +22,6 @@ ClientHelpers.GetPedAheadOfPlayer = function()
     local rayHandle = StartShapeTestCapsule(lPedCoords.x, lPedCoords.y, lPedCoords.z, lPedOffset.x, lPedOffset.y, lPedOffset.z, 1.2, 12, lPed, 7)
     local returnValue, hit, endcoords, surface, ped = GetShapeTestResult(rayHandle)
 
-    DrawMarker(1, lPedOffset.x, lPedOffset.y, lPedOffset.z - 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 255, 0.3, 0, 0, 2, 0, 0, 0, 0)
-
     if hit then
         return ped
     else

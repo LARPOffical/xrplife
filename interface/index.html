@@ -51,7 +51,7 @@
                             </div>
                             <v-data-table v-bind:headers="selected_inventory_headers" :items="selected_inventory" class="elevation-1" rows-per-page-items="5" no-data-text="You have nothing in your inventory">
                                 <template slot="items" slot-scope="props">
-                                    <td class="text-xs-center">{{ props.item.name }}</td>
+                                    <td class="text-xs-center">{{ props.item.item }}</td>
                                     <td class="text-xs-center">{{ props.item.amount }}</td>
                                 </template>
                             </v-data-table>
@@ -140,7 +140,7 @@
 
                     <div id="police_player_interactions" v-show="show_police_actions">
                         <v-btn color="gray" outline style="width: 96%">Request ID</v-btn>
-                        <v-btn color="gray" outline style="width: 96%">Handcuff</v-btn>
+                        <v-btn color="gray" outline style="width: 96%" @click="HandcuffPlayer()">Handcuff</v-btn>
                         <v-btn color="gray" outline style="width: 96%">Search</v-btn>
                         <v-btn color="gray" outline style="width: 96%" @click="TogglePoliceActions()">Back</v-btn>
                         <v-btn color="red" outline style="width: 96%" @click="TogglePlayerInteraction()">Close Menu</v-btn>

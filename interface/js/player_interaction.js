@@ -9,7 +9,7 @@ let player_interaction = new Vue({
 
         show_main_interaction_buttons: true,
 
-        has_police_actions: true,
+        has_police_actions: false,
         has_ems_actions: false,
         has_fire_actions: false,
 
@@ -20,13 +20,17 @@ let player_interaction = new Vue({
     },
 
     methods: {
-        TogglePlayerInteraction(jobs) {
+        TogglePlayerInteraction(job) {
             this.show_player_interaction = !this.show_player_interaction;
             if (this.show_player_interaction == true) {
                 // turn off vehicle interaction if its on while this is being toggled
-                this.has_police_actions = jobs.police;
-                this.has_ems_actions = jobs.ems;
-                this.has_fire_actions = jobs.fire;
+                if (job == "Police Officer") {
+                    this.has_police_actions = true;
+                } else if (job == "Paramedic") {
+                    this.has_ems_actions = true;
+                } else if (job == "Firefighter") {
+                    this.has_fire_actions = true;
+                };
             } else {
                 this.show_main_interaction_buttons = true;
                 this.has_police_actions = false;
@@ -82,5 +86,15 @@ let player_interaction = new Vue({
                 this.show_main_interaction_buttons = false;
             }
         },
+
+        // Police Functions
+        HandcuffPlayer() {
+            axios.post("http://" + resource_name + "/handcuffcallback", {}).then(function(response) {
+                console.log(response);
+            }).catch(function(error) {
+                console.log(error);
+            })
+        },
+
     }
 })

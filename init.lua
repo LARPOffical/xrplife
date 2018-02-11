@@ -71,6 +71,8 @@ AddEventHandler("XRPLife:InitializePlayer", function()
     
     -- Add player to player list
     PlayerTable.Functions.AddPlayerToTable(src)
+    -- Add player to job list
+    CharacterJobs.Functions.AddPlayerJob(src, JobsConfig.StarterJob)
 
     -- Recieve Initial Player Characters
     local current_chars = CharacterDB.GetPlayerCharacters(src)
@@ -88,12 +90,15 @@ AddEventHandler("XRPLife:InitializePlayer", function()
             inventory=inv
         })
     end
-
+    -- Triggered Character Menu
     TriggerClientEvent("XRPLife:EnableCharacterMenu", src, char_list)
+    -- Starts Paycheck Cycle
+    TriggerClientEvent("XRPLife:RequestCharacterPaycheck", src)
 end)
 
 AddEventHandler("playerDropped", function()
     local src = source
     PlayerTable.Functions.RemovePlayerFromTable(src)
+    CharacterJobs.Functions.RemovePlayerJob(src)
     Characters.Functions.RemovePlayerCharacter(src)
 end)

@@ -5,6 +5,7 @@ AddEventHandler("onClientMapStart", function()
     exports.spawnmanager:setAutoSpawn(false)
     RemoveDispatch()
     TriggerServerEvent("XRPLife:InitializePlayer")
+    TriggerEvent("XRPLife:RequestJobMarkers")
 end)
 
 -- Called Every Frame

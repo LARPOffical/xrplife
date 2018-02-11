@@ -24,6 +24,8 @@ server_script "config/base.lua"
 server_script "config/community_ranks.lua"
 server_script "config/clothing.lua"
 server_script "config/items.lua"
+server_script "config/jobs.lua"
+server_script "config/police.lua"
 
 -- [[ Table Files ]]--
 server_script "tables/characters.lua"
@@ -72,6 +74,14 @@ client_script "modules/player_spawning/client.lua"
 -- Chat Handler --
 server_script "modules/chat_handler/server.lua"
 client_script "modules/chat_handler/client.lua"
+
+-- Job Paychecks --
+server_script "modules/job_paychecks/server.lua"
+client_script "modules/job_paychecks/client.lua"
+
+-- Job Markers --
+server_script "modules/job_markers/server.lua"
+client_script "modules/job_markers/client.lua"
 
 --[[ Server Scripts ]]--
 server_script "init.lua"

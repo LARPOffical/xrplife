@@ -2,11 +2,11 @@ local menu_open = false
 local selected_server_id = nil
 
 RegisterNetEvent("XRPLife:OpenPlayerInteraction")
-AddEventHandler("XRPLife:OpenPlayerInteraction", function(jobs)
+AddEventHandler("XRPLife:OpenPlayerInteraction", function(job)
     SetNuiFocus(true, true)
     SendNUIMessage({
         type="open_player_interaction",
-        jobs={police = jobs.police,ems = jobs.ems,fire = jobs.fire}
+        job=job
     })
     menu_open = true
 end)
@@ -32,15 +32,16 @@ Citizen.CreateThread(function()
                     local ped = GetPlayerPed(players[a])
                     local server_id = GetPlayerServerId(players[a])
                     if tartgetped == ped then
-                        Citizen.Trace("Found Matching Ped")
-                        Citizen.Trace(tostring("Player Client ID: " .. players[a]))
-                        Citizen.Trace(tostring("Player Server ID: " .. server_id))
                         TriggerServerEvent("XRPLife:GetInteractionPermissions")
                         selected_server_id = server_id
-                        Citizen.Trace(tostring(selected_server_id))
                     end
                 end
             end
         end
     end
+end)
+
+--[[ Acctions ]]--
+RegisterNUICallback("handcuffcallback", function()
+    TriggerServerEvent("XRPLife:SendHandcuffRequest", selected_server_id)
 end)

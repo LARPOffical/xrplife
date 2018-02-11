@@ -35,7 +35,7 @@ document.onreadystatechange = () => {
 
             // Player Interaction Menu
             if (event.data.type == "open_player_interaction") {
-                player_interaction.TogglePlayerInteraction(event.data.jobs)
+                player_interaction.TogglePlayerInteraction(event.data.job)
             } else if (event.data.type == "force_close_player_interaction") {
                 player_interaction.TogglePlayerInteraction();
             }
