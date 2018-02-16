@@ -20,13 +20,12 @@ MySQL.ready(function()
     end
 
     PlayerDB.CreatePlayer = function(id)
-        MySQL.Async.execute("INSERT INTO players (`license`, `name`, `com_rank`, `ban_status`, `whitelisted`, `characters`) VALUES (@license, @name, @rank, @ban, @whitelisted, @chars)", {
+        MySQL.Async.execute("INSERT INTO players (`license`, `name`, `com_rank`, `ban_status`, `whitelisted`) VALUES (@license, @name, @rank, @ban, @whitelisted)", {
             ['@license'] = ServerHelpers.FindPlayerIdentifier("license", id),
             ['@name'] = GetPlayerName(id),
             ['@rank'] = ComranksConfig.Ranks[1].rank,
             ['@ban'] = json.encode({banned = false, reason = "", banner = ""}),
             ['@whitelisted'] = false,
-            ['@chars'] = 0
         })
     end
 

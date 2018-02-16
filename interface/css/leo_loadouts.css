@@ -1,0 +1,23 @@
+#leo_loadouts {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-75%, -25%);
+    width: 250px;
+    border-radius: 5px;
+}
+
+#leo_loadouts_header {
+    background-color: black;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    font-size: 20px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+#leo_loadouts_body {
+    padding: 10px;
+    background-color: white;
+}

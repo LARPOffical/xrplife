@@ -1,6 +1,11 @@
 ClientHelpers = {}
 ClientHelpers = setmetatable(ClientHelpers, {})
 
+--  Booleans
+ClientHelpers.PlayerHandcuffed = false
+ClientHelpers.PlayerHandsUp = false
+
+-- Functions --
 ClientHelpers.LocalPed = function()
     return GetPlayerPed(PlayerId())
 end
@@ -24,6 +29,23 @@ ClientHelpers.GetPedAheadOfPlayer = function()
 
     if hit then
         return ped
+    else
+        return false
+    end
+end
+
+ClientHelpers.IsPlayerDead = function()
+    local ped = ClientHelpers.LocalPed()
+    if IsEntityDead(ped) then
+        return true
+    else
+        return false
+    end
+end
+
+ClientHelpers.IsPlayerPlayingAnim = function(dic, name)
+    if IsEntityPlayingAnim(ClientHelpers.LocalPed(), dic, name, 3) then
+        return true
     else
         return false
     end
@@ -53,6 +75,12 @@ ClientHelpers.Draw3DText = function(x, y, z, text)
         AddTextComponentString(text)
         DrawText(_x,_y)
     end
+end
+
+ClientHelpers.DisplayTopLeftNotification = function(string)
+    SetTextComponentFormat("STRING")
+    AddTextComponentString(string)
+    DisplayHelpTextFromStringLabel(0, 0, 1, -1)
 end
 
 ClientHelpers.ModelComponentsIds = {

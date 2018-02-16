@@ -1,48 +1,58 @@
 PoliceConfig = {}
 PoliceConfig = setmetatable(PoliceConfig, {})
 
-PoliceConfig.Divisions = {
-    "TRAFFIC",
-    "K9",
-    "SWAT",
-    "AIR"
+PoliceConfig.Ranks = {
+    "Police Officer",
+    "Senior Officer",
+    "Corporal",
+    "Sergeant",
+    "Lieutenant",
+    "Captain"
 }
 
-PoliceConfig.Loadouts = {
-    ['TRAFFIC'] = {
+PoliceConfig.Divisions = {
+    "PATROL",
+    "SWAT"
+}
+
+PoliceConfig.LoadoutsList = {
+    "TRAFFIC",
+    "PATROL",
+    "SWAT"
+}
+
+PoliceConfig.LoadoutsData = {
+    ['TRAFFIC_1'] = {
         uniform = {
-            ped = "",
-            components = {}
+            model = "s_m_y_cop_01", 
+            components = {
+                {drawable = 1, texture = 1}
+            }, 
+            props = {}
         },
         weapons = {
-            {weapon = "", components = {}, ammo = 100}
+            {model = "WEAPON_COMBATPISTOL", attachments = {}, ammo = 120},
+            {model = "WEAPON_STUNGUN", attachments = {}, ammo = -1},
+            {model = "WEAPON_PUMPSHOTGUN", attachments = {}, ammo = 50},
+            {model = "WEAPON_NIGHTSTICK", attachments = {}, ammo = -1}
         }
     },
-    ['K9'] = {
+
+    ['TRAFFIC_2'] = {
         uniform = {
-            ped = "",
-            components = {}
+            model = "s_m_y_cop_01", 
+            components = {}, 
+            props = {}
         },
         weapons = {
-            {weapon = "", components = {}, ammo = 100}
-        }
-    },
-    ['SWAT'] = {
-        uniform = {
-            ped = "",
-            components = {}
-        },
-        weapons = {
-            {weapon = "", components = {}, ammo = 100}
-        }
-    },
-    ['AIR'] = {
-        uniform = {
-            ped = "",
-            components = {}
-        },
-        weapons = {
-            {weapon = "", components = {}, ammo = 100}
+            {model = "WEAPON_COMBATPISTOL", attachments = {}, ammo = 80},
+            {model = "WEAPON_STUNGUN", attachments = {}, ammo = -1},
+            {model = "WEAPON_CARBINERIFLE", attachments = {}, ammo = 150},
+            {model = "WEAPON_NIGHTSTICK", attachments = {}, ammo = -1}
         }
     }
+}
+
+PoliceConfig.Vehicles = {
+    {name = "Supervisor Tahoe", model = "model_tahoe", livery = "livery_something", allowedRanks = {"Sergeant", "Lieutenant", "Captain"}, allowedDivisions = {}}
 }

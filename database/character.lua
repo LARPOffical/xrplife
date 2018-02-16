@@ -42,7 +42,7 @@ MySQL.ready(function()
 
     -- Creates Player Character
     CharacterDB.CreateCharacter = function(id, data)
-        MySQL.Async.execute("INSERT INTO characters (`license`, `name`, `dob`, `gender`, `model_components`, `bank`, `inventory`, `state`, `sheriff`, `police`, `fire`) VALUES (@license, @name, @dob, @gender, @model, @bank, @inventory, @state, @sheriff, @police, @fire)", {
+        MySQL.Async.execute("INSERT INTO characters (`license`, `name`, `dob`, `gender`, `model_components`, `bank`, `inventory`, `licenses`, `state`, `sheriff`, `police`, `fire`) VALUES (@license, @name, @dob, @gender, @model, @bank, @inventory, @licenses, @state, @sheriff, @police, @fire)", {
             ['@license'] = ServerHelpers.FindPlayerIdentifier("license", id),
             ['@name'] = data.name,
             ['@dob'] = data.dob,
@@ -71,12 +71,12 @@ MySQL.ready(function()
             })),
             ['@bank'] = BaseConfig.StarterBank,
             ['@inventory'] = json.encode({}),
+            ['@licenses'] = json.encode({}),
             ['@state'] = json.encode({rank = "", divisions = {}, hasPermission = false}),
             ['@sheriff'] = json.encode({rank = "", divisions = {}, hasPermission = false}),
             ['@police'] = json.encode({rank = "", divisions = {}, hasPermission = false}),
             ['@fire'] = json.encode({rank = "", divisions = {}, hasPermission = false}),
         }, function(results)
-            print(results)
             TriggerEvent("XRPLife:UpdatePlayerCharacters", id)
         end)
     end
@@ -89,8 +89,6 @@ MySQL.ready(function()
             ['@dob'] = dob,
             ['@data'] = tostring(json.encode(data))
         }, function(results)
-            print("UPDATING CHARACTER")
-            print(results)
         end)
     end
 
@@ -108,18 +106,17 @@ MySQL.ready(function()
             ['@name'] = name,
             ['@dob'] = dob
         }, function(results)
-            print(results)
         end)
     end
 
     -- Removes Character
     CharacterDB.DeleteCharacter = function(id, name, dob)
         MySQL.Async.execute("DELETE FROM characters WHERE license = @license AND name = @name AND dob = @dob", {['@license'] = ServerHelpers.FindPlayerIdentifier("license", id), ['@name'] = name, ['@dob'] = dob}, function(results)
-            print(results)
             TriggerEvent("XRPLife:UpdatePlayerCharacters", id)
         end)
     end
 
+    -- Returns Character Police Data
     CharacterDB.CharacterPoliceData = function(id, name, dob)
         local results = MySQL.Sync.fetchAll("SELECT police FROM characters WHERE license = @license AND name = @name AND dob = @dob",  {
             ['@license'] = ServerHelpers.FindPlayerIdentifier("license", id),
@@ -127,6 +124,28 @@ MySQL.ready(function()
             ['@dob'] = dob
         })
         local data = json.decode(results[1].police)
+        return data
+    end
+
+    -- Returns Character Sheriff Data
+    CharacterDB.CharacterSheriffData = function(id, name, dob)
+        local results = MySQL.Sync.fetchAll("SELECT sheriff FROM characters WHERE license = @license AND name = @name AND dob = @dob", {
+            ['@license'] = ServerHelpers.FindPlayerIdentifier("license", id),
+            ['@name'] = name,
+            ['@dob'] = dob
+        })
+        local data = json.decode(results[1].sheriff)
+        return data
+    end
+
+    -- Returns Character State Data
+    CharacterDB.CharacterStateData = function(id, name, dob)
+        local results = MySQL.Sync.fetchAll("SELECT state FROM characters WHERE license = @license AND name = @name AND dob = @dob", {
+            ['@license'] = ServerHelpers.FindPlayerIdentifier("license", id),
+            ['@name'] = name,
+            ['@dob'] = dob
+        })
+        local data = json.decode(results[1].state)
         return data
     end
 end)

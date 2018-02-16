@@ -2,7 +2,7 @@ BaseConfig = {}
 BaseConfig = setmetatable(BaseConfig, {})
 
 -- Server Config
-BaseConfig.Whitelisted = true
+BaseConfig.Whitelisted = false
 
 -- Character Base Config
 BaseConfig.MaxCharacters = 5

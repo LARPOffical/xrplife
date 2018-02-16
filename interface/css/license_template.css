@@ -1,0 +1,21 @@
+#license_template {
+    position: absolute;
+    width: 500;
+    height: 232px;
+    background-color: white;
+    top:100%;
+    right: 20px;
+    transform: translateY(-252px);
+    border-radius: 5px;
+}
+
+#license_header {
+    text-align: center;
+    background-color: black;
+    color: white;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    font-size: 25px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

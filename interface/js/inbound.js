@@ -35,9 +35,18 @@ document.onreadystatechange = () => {
 
             // Player Interaction Menu
             if (event.data.type == "open_player_interaction") {
-                player_interaction.TogglePlayerInteraction(event.data.job)
+                player_interaction.TogglePlayerInteraction(event.data.job, event.data.jobs);
             } else if (event.data.type == "force_close_player_interaction") {
                 player_interaction.TogglePlayerInteraction();
+            } else if (event.data.type == "request_player_id") {
+                notifications.LicenseCheckAlert(event.data.officer);
+            }
+
+            // License 
+            if (event.data.type == "enable_license_ui") {
+                idcard.ToggleLicense(event.data.data);
+            } else if (event.data.type == "remove_license_ui") {
+                idcard.ToggleLicense();
             }
         });
     }

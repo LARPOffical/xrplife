@@ -26,6 +26,7 @@ server_script "config/clothing.lua"
 server_script "config/items.lua"
 server_script "config/jobs.lua"
 server_script "config/police.lua"
+server_script "config/blips.lua"
 
 -- [[ Table Files ]]--
 server_script "tables/characters.lua"
@@ -42,14 +43,23 @@ files {
     "interface/css/character_menu.css",
     "interface/css/inventory.css",
     "interface/css/player_interaction.css",
+    "interface/css/license_template.css",
+    "interface/css/leo_loadouts.css",
 
     -- JS
     "interface/js/inbound.js",
     "interface/js/character_menu.js",
     "interface/js/inventory.js",
     "interface/js/player_interaction.js",
+    "interface/js/license_template.js",
+    "interface/js/leo_loadouts.js",
     "interface/js/notification.js"
 }
+
+--[[ Extra Scripts ]]--
+client_script "scripts/handcuffs.lua"
+client_script "scripts/idrequest.lua"
+client_script "scripts/handsup.lua"
 
 --[[ Interace Lua Scripts ]]--
 -- Character Menu
@@ -65,6 +75,7 @@ client_script "interface/lua/inventory/client.lua"
 server_script "interface/lua/player_interaction/server.lua"
 client_script "interface/lua/player_interaction/client.lua"
 client_script "interface/lua/player_interaction/scripts/handcuffs.lua"
+client_script "interface/lua/player_interaction/scripts/idrequest.lua"
 
 --[[ Module Files ]]--
 -- Player Spawning --
@@ -73,6 +84,7 @@ client_script "modules/player_spawning/client.lua"
 
 -- Chat Handler --
 server_script "modules/chat_handler/server.lua"
+server_script "modules/chat_handler/commands.lua"
 client_script "modules/chat_handler/client.lua"
 
 -- Job Paychecks --

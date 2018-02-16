@@ -6,6 +6,7 @@ AddEventHandler("onClientMapStart", function()
     RemoveDispatch()
     TriggerServerEvent("XRPLife:InitializePlayer")
     TriggerEvent("XRPLife:RequestJobMarkers")
+    TriggerServerEvent("XRPLife:RequestBlips")
 end)
 
 -- Called Every Frame
@@ -33,3 +34,16 @@ end
 function RemoveHealthRegen()
     SetPlayerHealthRechargeMultiplier(PlayerId(), 0.0)
 end
+
+RegisterNetEvent("XRPLife:DrawBlips")
+AddEventHandler("XRPLife:DrawBlips", function(blips)
+    for a = 1, #blips do
+        local blip = AddBlipForCoord(blips[a].coords.x, blips[a].coords.y, blips[a].coords.z)
+        SetBlipSprite(blip, blips[a].blip)
+        SetBlipDisplay(blip, 2)
+        SetBlipColour(blip, blips[a].color)
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentString(blips[a].name)
+        EndTextCommandSetBlipName(blip)
+    end
+end)

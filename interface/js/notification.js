@@ -1,9 +1,7 @@
+var resource_name = "xrplife";
+
 let notifications = new Vue({
     el: "#notification_container",
-
-    data: {
-
-    },
 
     methods: {
         SuccessAlert(data) {
@@ -26,18 +24,36 @@ let notifications = new Vue({
             })
         },
 
-        ConfirmAlert() {
-            this.$snotify.confirm('An officer has requested to see your ID', 'ID Request', {
+        LicenseCheckAlert(officername) {
+            var string = officername + " has requested to see your license."
+            console.log(string);
+            this.$snotify.confirm(string, "ID Request", {
                 timeout: 10000,
                 position: "rightTop",
                 showProgressBar: true,
                 closeOnClick: false,
                 pauseOnHover: true,
                 buttons: [
-                    {text: "Show", action: (notification) => {this.$snotify.remove(notification.id);}},
-                    {text: "Hide", action: (notification) => {this.$snotify.remove(notification.id);}},
+                    {text: "Accept", action: (notification) => {
+                        console.log("Accepted ID Request.");
+                        axios.post("http://" + resource_name + "/sendidresults", {accepted: true}).then(function(response) {
+                            console.log(response);
+                        }).catch(function(error) {
+                            console.log(error);
+                        })
+                        this.$snotify.remove(notification.id);
+                    }},
+                    {text: "Refuse", action: (notification) => {
+                        console.log("Refused ID Request.");
+                        axios.post("http://" + resource_name + "/sendidresults", {accepted: false}).then(function(response) {
+                            console.log(response);
+                        }).catch(function(error) {
+                            console.log(error);
+                        })
+                        this.$snotify.remove(notification.id);
+                    }}
                 ]
-              });
-        }
+            });
+        },
     }
 })

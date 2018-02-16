@@ -17,20 +17,27 @@ let player_interaction = new Vue({
         show_police_actions: false,
         show_ems_actions: false,
         show_fire_actions: false,
+
+        menu_jobs: [],
     },
 
     methods: {
-        TogglePlayerInteraction(job) {
+        TogglePlayerInteraction(job, jobs) {
             this.show_player_interaction = !this.show_player_interaction;
             if (this.show_player_interaction == true) {
-                // turn off vehicle interaction if its on while this is being toggled
-                if (job == "Police Officer") {
-                    this.has_police_actions = true;
-                } else if (job == "Paramedic") {
-                    this.has_ems_actions = true;
-                } else if (job == "Firefighter") {
-                    this.has_fire_actions = true;
-                };
+                // Passes Jobs To Menu That Can Be Used For Comparison
+                this.menu_jobs = jobs;
+
+                for (index1 in this.menu_jobs) {
+                    if (this.menu_jobs[index1].name == job) {
+                        for (index2 in this.menu_jobs[index1].actions) {
+                            if (this.menu_jobs[index1].actions[index2] == "LEO") {
+                                this.has_police_actions = true;
+                            }
+                        }
+                    }
+                }
+
             } else {
                 this.show_main_interaction_buttons = true;
                 this.has_police_actions = false;
@@ -96,5 +103,13 @@ let player_interaction = new Vue({
             })
         },
 
+        RequestPlayerLicense() {
+            console.log("Requesting Players License")
+            axios.post("http://" + resource_name + "/requestlicense", {}).then(function(response) {
+                console.log(response);
+            }).catch(function(error) {
+                console.log(error);
+            })
+        }
     }
 })

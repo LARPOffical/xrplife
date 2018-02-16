@@ -102,3 +102,9 @@ AddEventHandler("playerDropped", function()
     CharacterJobs.Functions.RemovePlayerJob(src)
     Characters.Functions.RemovePlayerCharacter(src)
 end)
+
+RegisterServerEvent("XRPLife:RequestBlips")
+AddEventHandler("XRPLife:RequestBlips", function()
+    local src = source
+    TriggerClientEvent("XRPLife:DrawBlips", src, BlipsConfig.Blips)
+end)

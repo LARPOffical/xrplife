@@ -9,8 +9,7 @@
     ^7 is White
 --]]
 
---[[ LOCAL CHAT HANDLER ]]--
-
+--[[ Local Chat Handler ]]--
 AddEventHandler("chatMessage", function(source, name, message)
     CancelEvent()
     local src = source
@@ -28,25 +27,3 @@ AddEventHandler("chatMessage", function(source, name, message)
         end
     end
 end)
-
---]]
-
---[[ GLOBAL CHAT HANDLER ]]--
-
-RegisterCommand("g", function(source, args, string)
-    local src = source
-    local rank = PlayerTable.Functions.GetPlayerRank(src)
-    local name = Characters.Functions.GetPlayerName(src)
-    local message = table.concat(args, " ")
-
-    TriggerClientEvent("chatMessage", -1, tostring("^3[GLOBAL] " .. "^1[" .. rank .. "]" .. " ^5" .. name .. ": ^0" .. message))
-end, false)
-
---]]
-
---[[ Testing Commands ]]--
-RegisterCommand("setjob", function(source, args, string)
-    local src = source
-    local job = tostring(table.concat(args, " "))
-    CharacterJobs.Functions.SetPlayerJob(src, job)
-end, false)
