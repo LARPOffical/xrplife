@@ -52,7 +52,7 @@ let notifications = new Vue({
                         })
                         this.$snotify.remove(notification.id);
                     }}
-                ]
+                ],
             });
         },
     }

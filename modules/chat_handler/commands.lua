@@ -12,10 +12,3 @@ RegisterCommand("hu", function(source, args, string)
     local src = source
     TriggerClientEvent("XRPLife:Handsup", src)
 end, false)
-
--- Set Job Testing Command --
-RegisterCommand("setjob", function(source, args, string)
-    local src = source
-    local job = tostring(table.concat(args, " "))
-    CharacterJobs.Functions.SetPlayerJob(src, job)
-end, false)

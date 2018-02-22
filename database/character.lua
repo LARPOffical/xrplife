@@ -42,7 +42,7 @@ MySQL.ready(function()
 
     -- Creates Player Character
     CharacterDB.CreateCharacter = function(id, data)
-        MySQL.Async.execute("INSERT INTO characters (`license`, `name`, `dob`, `gender`, `model_components`, `bank`, `inventory`, `licenses`, `state`, `sheriff`, `police`, `fire`) VALUES (@license, @name, @dob, @gender, @model, @bank, @inventory, @licenses, @state, @sheriff, @police, @fire)", {
+        MySQL.Async.execute("INSERT INTO characters (`license`, `name`, `dob`, `gender`, `model_components`, `bank`, `inventory`, `hygiene`, `licenses`, `state`, `sheriff`, `police`, `fire`) VALUES (@license, @name, @dob, @gender, @model, @bank, @inventory, @hygiene, @licenses, @state, @sheriff, @police, @fire)", {
             ['@license'] = ServerHelpers.FindPlayerIdentifier("license", id),
             ['@name'] = data.name,
             ['@dob'] = data.dob,
@@ -71,6 +71,7 @@ MySQL.ready(function()
             })),
             ['@bank'] = BaseConfig.StarterBank,
             ['@inventory'] = json.encode({}),
+            ['@hygiene'] = json.encode({hunger = 100, thirst = 100}),
             ['@licenses'] = json.encode({}),
             ['@state'] = json.encode({rank = "", divisions = {}, hasPermission = false}),
             ['@sheriff'] = json.encode({rank = "", divisions = {}, hasPermission = false}),

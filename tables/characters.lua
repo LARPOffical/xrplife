@@ -9,7 +9,8 @@ Characters.Functions.AddPlayerCharacter = function(id, character_info)
         name = character_info.name, 
         dob = character_info.dob, 
         gender = character_info.gender,
-        inventory = json.decode(character_info.inventory)
+        inventory = json.decode(character_info.inventory),
+        hygiene = json.decode(character_info.hygiene),
     })
     print(tostring(json.encode(Characters.List)))
     TriggerClientEvent("XRPLife:CloseCharacterMenu", id)

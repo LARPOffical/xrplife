@@ -1,9 +1,9 @@
 #player_interaction_container {
     position: absolute;
-    right: 20px;
     top: 50%;
+    right: 20px;
+    width: 300px;
     transform: translateY(-30%);
-    width: 400px;
 }
 
 #player_interaction_header {

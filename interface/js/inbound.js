@@ -27,11 +27,13 @@ document.onreadystatechange = () => {
                 charactermenu.CloseMenu();
             }
 
-            // Inventory Menu
-            if (event.data.type == "open_inventory") {
-                inventory.ToggleInventory();
-                inventory.UpdateInventory(event.data.items);
+            // Inventory
+            if (event.data.type == "") {
+                
             }
+
+            // Thirst - Hunger
+
 
             // Player Interaction Menu
             if (event.data.type == "open_player_interaction") {
@@ -47,6 +49,13 @@ document.onreadystatechange = () => {
                 idcard.ToggleLicense(event.data.data);
             } else if (event.data.type == "remove_license_ui") {
                 idcard.ToggleLicense();
+            }
+
+            // LEO Loadout Menu
+            if (event.data.type == "open_leo_loadout_menu") {
+                leoloadouts.ToggleLoadoutsMenu(event.data.loadout);
+            } else if (event.data.type == "close_leo_loadout_menu") {
+                leoloadouts.ToggleLoadoutsMenu();
             }
         });
     }

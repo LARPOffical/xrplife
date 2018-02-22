@@ -66,7 +66,8 @@ AddEventHandler("XRPLife:SelectPlayerCharacter", function(data)
             name = character.name,
             dob = character.dob,
             gender = character.gender,
-            inventory = character.inventory
+            inventory = character.inventory,
+            hygiene = character.hygiene
         })
         TriggerClientEvent("XRPLife:SuccessNotification", src, {
             title = "XRPLife",

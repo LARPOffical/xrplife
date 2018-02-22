@@ -1,22 +1,80 @@
-#inventory_menu_container {
+#inventory_container {
     position: absolute;
-    width: 800px;
-    height: 500px;
-    right: 20px;
+    width: 1200px;
+    max-width: 1200px;
+    height: 700px;
+    max-height: 700px;
+    left: 50%;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
 }
 
-#inventory_header {
-    text-align: center;
-    color: white;
+#inventory_storage_header {
     background-color: black;
     padding: 20px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    font-size: 28px;
+}
+
+#inventory_storage_body {
+    background-color: gray;
+    overflow-y: auto;
+    padding: 5px;
+    height: 610px;
+}
+
+#inventory_header {
+    background-color: black;
+    padding: 20px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+#close_inventory_button {
+    position: absolute;
+    top: 25px;
 }
 
 #inventory_body {
-    background-color: white;
+    background-color: gray;
+    height: 610px;
+    padding: 10px;
+}
+
+#inventory_items {
+    border-radius: 5px;
+    background-color: black;
+    height: 380px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+#inventory_give_area {
+    background-color: black;
+    height: 380px;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+#hunger_bar {
+    background-color: lightgreen;
+    width: 410px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#thirst_bar {
+    background-color: rgb(1, 69, 255);
+    width: 410px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.character_data {
+    background-color: black;
+    padding: 10px;
+    color: white;
+    margin-bottom: 10px;
+    border-radius: 5px;
 }

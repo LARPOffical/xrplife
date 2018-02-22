@@ -1,15 +1,14 @@
 <html style="overflow-x: hidden; overflow-y: hidden;">
     <head>
         <title>XRPLife UI</title>
-        <!-- Style Sheets -->
         <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'> <!-- Material CSS -->
         <link rel="stylesheet" href="https://unpkg.com/vuetify/dist/vuetify.min.css"> <!-- Vuetify CSS -->
         <link rel="stylesheet" href="https://unpkg.com/vue-snotify@3.0.4/styles/material.css"> <!-- Notification CSS -->
-        <link rel="stylesheet" href="css/character_menu.css"> <!-- Character Menu CSS -->
-        <link rel="stylesheet" href="css/inventory.css"> <!-- Clothing Shop -->
-        <link rel="stylesheet" href="css/player_interaction.css"> <!-- Interaction Menu -->
-        <link rel="stylesheet" href="css/license_template.css"> <!-- License Template -->
-        <link rel="stylesheet" href="css/leo_loadouts.css"> <!-- LEO Loadouts -->
+        <link rel="stylesheet" href="css/character_menu.css">
+        <link rel="stylesheet" href="css/player_interaction.css">
+        <link rel="stylesheet" href="css/license_template.css">
+        <link rel="stylesheet" href="css/leo_loadouts.css">
+        <link rel="stylesheet" href="css/inventory.css">
     </head>
     <body style="background-color: transparent !important; font-family: Verdana, Geneva, Tahoma, sans-serif; -moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none">
 
@@ -94,32 +93,6 @@
                     </div>
                 </v-app>
             </div>
-            
-            <!-- Container contains characters inventory -->
-            <!-- ONLY PUT USE BUTTONS ON CERTAIN ITEM TYPES -->
-            <div id="inventory_menu_container" v-show="show_inventory">
-                <v-app style="background-color: transparent !important">
-                    <div id="inventory">
-                        <div id="inventory_header">
-                            <v-btn small color="red" style="position: absolute; float: right; right: 0px; top: 0px;" @click="ToggleInventory()"><v-icon>close</v-icon></v-btn>
-                            XRPLife Inventory
-                        </div>
-                        <div id="inventory_body">
-                            <v-data-table v-bind:headers="inventory_headers" :items="inventory" class="elevation-1" rows-per-page-items="5" no-data-text="You have nothing in your inventory">
-                                <template slot="items" slot-scope="props">
-                                    <td class="text-xs-center">{{ props.item.item }}</td>
-                                    <td class="text-xs-center">{{ props.item.amount }}</td>
-                                    <td class="text-xs-center">
-                                        <v-btn color="red" style="color: white;" round><v-icon left>block</v-icon> Remove</v-btn>
-                                        <v-icon>code</v-icon>
-                                        <v-btn color="green" style="color: white;" round @click=""><v-icon left>check_circle</v-icon> Select</v-btn>
-                                    </td>
-                                </template>
-                            </v-data-table>
-                        </div>
-                    </div>
-                </v-app>
-            </div>
 
             <!-- Container contains player interaction menu -->
             <div id="player_interaction_container" v-show="show_player_interaction">
@@ -132,7 +105,7 @@
                         <div id="interaction_buttons" v-show="show_main_interaction_buttons">
                             <v-btn color="gray" outline  style="width: 96%;" @click="ToggleCivilianActions()">Civilian</v-btn>
                             <v-btn color="gray" outline  style="width: 96%;" v-show="has_police_actions" @click="TogglePoliceActions()">LEO</v-btn>
-                            <v-btn color="gray" outline  style="width: 96%;" v-show="has_ems_actions">EMS</v-btn>
+                            <v-btn color="gray" outline  style="width: 96%;" v-show="has_ems_actions" @click="ToggleEMSActions()">EMS</v-btn>
                             <v-btn color="gray" outline  style="width: 96%;" v-show="has_fire_actions">FIRE</v-btn>
                             <v-btn color="red" outline style="width: 96%;" @click="TogglePlayerInteraction()">Close Menu</v-btn>
                         </div>
@@ -141,7 +114,6 @@
                             <v-btn color="gray" outline style="width: 96%">Mug</v-btn>
                             <v-btn color="gray" outline style="width: 96%">Blind Fold</v-btn>
                             <v-btn color="gray" outline style="width: 96%">Ziptie</v-btn>
-                            <v-btn color="gray" outline style="width: 96%">Lockpick</v-btn>
                             <v-btn color="gray" outline style="width: 96%" @click="ToggleCivilianActions()">Back</v-btn>
                             <v-btn color="red" outline style="width: 96%" @click="TogglePlayerInteraction()">Close Menu</v-btn>
                         </div>
@@ -150,6 +122,13 @@
                             <v-btn color="gray" outline style="width: 96%" @click="RequestPlayerLicense()">Request ID</v-btn>
                             <v-btn color="gray" outline style="width: 96%" @click="HandcuffPlayer()">Handcuff</v-btn>
                             <v-btn color="gray" outline style="width: 96%" @click="TogglePoliceActions()">Back</v-btn>
+                            <v-btn color="red" outline style="width: 96%" @click="TogglePlayerInteraction()">Close Menu</v-btn>
+                        </div>
+
+                        <div id="ems_player_interactions" v-show="show_ems_actions">
+                            <v-btn color="gray" outline style="width: 96%" @click="">Revive</v-btn>
+                            <v-btn color="gray" outline style="width: 96%" @click="">Heal</v-btn>
+                            <v-btn color="gray" outline style="width: 96%" @click="ToggleEMSActions()">Back</v-btn>
                             <v-btn color="red" outline style="width: 96%" @click="TogglePlayerInteraction()">Close Menu</v-btn>
                         </div>
                     </div>
@@ -203,11 +182,111 @@
                     </div>
                     <div id="leo_loadouts_body">
                         <div v-for="loadout in loadouts">
-                            <v-btn color="blue" dark style="width: 94%;">{{loadout}}</v-btn>
+                            <v-btn color="blue" dark style="width: 94%;" @click="RequestLoadout(loadout)">{{loadout}}</v-btn>
                         </div>
+                        <v-btn color="red" dark style="width: 94%;" @click="CloseMenu()">Close</v-btn>
                     </div>
                 </v-app>
             </div>
+
+            <!-- Inventory -->
+            <div id="inventory_container" v-show="show_inventory">
+                <v-app style="color: white; background-color: transparent !important">
+
+                    <v-container grid-list-md text-xs-center>
+                        <v-layout row wrap>
+
+                            <!-- Storage -->
+                            <v-flex xs3 v-show="show_storage">
+                                <div id="inventory_storage">
+                                    <div id="inventory_storage_header">
+                                        <h2>STORAGE</h2>
+                                    </div>
+                                    <div id="inventory_storage_body">
+
+                                        <v-menu full-width dark offset-y v-for="item in storage_inventory">
+                                            <v-btn style="width: 95%;" color="white" slot="activator">{{item.item}} x {{item.amount}}</v-btn>
+                                            <v-list>
+                                                <v-list-tile v-for="action in storage_inventory_actions" v-show="action.show" :key="action.action" @click="action.func(item.item)">
+                                                    <v-list-tile-title>{{ action.action }}</v-list-tile-title>
+                                                </v-list-tile>
+                                            </v-list>
+                                        </v-menu>
+
+                                    </div>
+                                </div>
+                            </v-flex>
+
+                            <!-- Inventory -->
+                            <v-flex xs9>
+                                <div id="inventory">
+                                    <div id="inventory_header">
+                                        <h2>CHARACTER</h2>
+                                        <div id="close_inventory_button">
+                                            <v-btn color="red" small @click="">
+                                                <v-icon color="white">close</v-icon>
+                                            </v-btn>
+                                        </div>
+                                    </div>
+                                    <div id="inventory_body">
+                                        <v-layout row wrap>
+                                            <v-flex xs6 style="text-align: left;">
+                                                <div id="inventory_character_data">
+                                                    <div class="character_data"><font color="red">NAME:</font> {{character_name}}</div>
+                                                    <div class="character_data"><font color="red">DOB:</font> {{character_dob}}</div>
+                                                    <div class="character_data"><font color="red">GENDER:</font> {{character_gender}}</div>
+                                                    <div class="character_data"><font color="red">PHONE:</font> {{character_phone}}</div>
+                                                </div>
+                                            </v-flex>
+
+                                            <v-flex xs6>
+                                                <div id="inventory_character_hunthirst">
+                                                    <div id="hunger" class="character_data">
+                                                        <h3>Hunger</h3>
+                                                        <div id="hunger_bar" style="background-color: green;" v-bind:style="{width: character_hunger_bar + 'px'}">
+                                                            <v-icon dark>local_dining</v-icon>
+                                                        </div>
+                                                    </div>
+                                                    <div id="thirst" class="character_data">
+                                                        <h3>Thirst</h3>
+                                                        <div id="thirst_bar" v-bind:style="{width: character_thirst_bar + 'px'}">
+                                                            <v-icon dark>local_drink</v-icon>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </v-flex>
+
+                                            <v-layout row>
+                                                <v-flex xs6>
+                                                    <div id="inventory_items">
+                                                        <h2>INVENTORY</h2>
+                                                        
+                                                        <v-menu full-width dark offset-y v-for="item in player_inventory">
+                                                            <v-btn style="width: 95%;" color="white" slot="activator">{{item.item}} x {{item.amount}}</v-btn>
+                                                            <v-list>
+                                                                <v-list-tile v-for="action in player_inventory_actions" :key="action.action" @click="">
+                                                                    <v-list-tile-title>{{ action.action }}</v-list-tile-title>
+                                                                </v-list-tile>
+                                                            </v-list>
+                                                        </v-menu>
+
+                                                    </div>
+                                                </v-flex>
+                                                <v-flex xs6>
+                                                    <div id="inventory_give_area">
+                                                        <h2>GIVE ITEMS</h2>
+                                                    </div>
+                                                </v-flex>
+                                            </v-layout>
+                                        </v-layout>
+                                    </div>
+                                </div>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+
+                </v-app>
+            </div> 
 
             <!-- Javascript Libraries -->
             <script src="https://cdn.jsdelivr.net/npm/vue"></script> <!-- Vue JS -->
@@ -216,12 +295,12 @@
             <script src="https://unpkg.com/vue-snotify@3.0.4/vue-snotify.js"></script> <!-- Notification JS -->
 
             <!-- Built Scripts -->
-            <script src="js/inbound.js"></script> <!-- Event Listener -->
-            <script src="js/character_menu.js"></script> <!-- Character Main Menu | Character Creator JS -->
-            <script src="js/inventory.js"></script> <!-- Inventory JS -->
-            <script src="js/player_interaction.js"></script> <!-- Interaction JS -->
-            <script src="js/license_template.js"></script> <!-- License JS -->
-            <script src="js/leo_loadouts.js"></script> <!-- LEO Loadouts JS -->
-            <script src="js/notification.js"></script> <!-- Notification JS -->
+            <script src="js/inbound.js"></script>
+            <script src="js/character_menu.js"></script>
+            <script src="js/player_interaction.js"></script>
+            <script src="js/license_template.js"></script>
+            <script src="js/leo_loadouts.js"></script>
+            <script src="js/inventory.js"></script>
+            <script src="js/notification.js"></script>
     </body>
 </html>

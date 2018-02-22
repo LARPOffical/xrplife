@@ -23,9 +23,9 @@ client_script "lib/client_helpers.lua"
 server_script "config/base.lua"
 server_script "config/community_ranks.lua"
 server_script "config/clothing.lua"
-server_script "config/items.lua"
-server_script "config/jobs.lua"
+server_script "config/inventory.lua"
 server_script "config/police.lua"
+server_script "config/jobs.lua"
 server_script "config/blips.lua"
 
 -- [[ Table Files ]]--
@@ -41,19 +41,19 @@ files {
 
     -- CSS
     "interface/css/character_menu.css",
-    "interface/css/inventory.css",
     "interface/css/player_interaction.css",
     "interface/css/license_template.css",
     "interface/css/leo_loadouts.css",
+    "interface/css/inventory.css",
 
     -- JS
     "interface/js/inbound.js",
     "interface/js/character_menu.js",
-    "interface/js/inventory.js",
     "interface/js/player_interaction.js",
     "interface/js/license_template.js",
     "interface/js/leo_loadouts.js",
-    "interface/js/notification.js"
+    "interface/js/inventory.js",
+    "interface/js/notification.js",
 }
 
 --[[ Extra Scripts ]]--
@@ -67,20 +67,15 @@ server_script "interface/lua/character_menu/server.lua"
 client_script "interface/lua/character_menu/client.lua"
 -- Notifications
 client_script "interface/lua/notification/client.lua"
--- Inventory
-server_script "interface/lua/inventory/server.lua"
-client_script "interface/lua/inventory/client.lua"
 
 -- Player Interaction
 server_script "interface/lua/player_interaction/server.lua"
 client_script "interface/lua/player_interaction/client.lua"
-client_script "interface/lua/player_interaction/scripts/handcuffs.lua"
-client_script "interface/lua/player_interaction/scripts/idrequest.lua"
 
 --[[ Module Files ]]--
 -- Player Spawning --
-server_script "modules/player_spawning/server.lua"
-client_script "modules/player_spawning/client.lua"
+server_script "modules/player_death/server.lua"
+client_script "modules/player_death/client.lua"
 
 -- Chat Handler --
 server_script "modules/chat_handler/server.lua"
@@ -90,6 +85,10 @@ client_script "modules/chat_handler/client.lua"
 -- Job Paychecks --
 server_script "modules/job_paychecks/server.lua"
 client_script "modules/job_paychecks/client.lua"
+
+-- Leo Loadouts
+server_script "modules/leo_loadouts/server.lua"
+client_script "modules/leo_loadouts/client.lua"
 
 -- Job Markers --
 server_script "modules/job_markers/server.lua"
