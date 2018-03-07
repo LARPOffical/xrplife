@@ -2,14 +2,14 @@
 Xander1998's FiveM Roleplay Framework
 
 # Dependencies
-InteractSound
-MySQL-Async
+1. InteractSound
+2. MySQL-Async
 
 # Important
 ## THIS RESOURCE IS FAR FROM DONE!!!!
 
-Make sure to remove the "fivem" resource as I do all of that in XRPLife.
-Make sure you import the SQL properly.
+1. Make sure to remove the "fivem" resource as I do all of that in XRPLife.
+2. Make sure you import the SQL properly.
 
 # LICENSE [Please read the license before using this.]
 
